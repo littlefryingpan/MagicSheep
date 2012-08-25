@@ -74,8 +74,8 @@ public class MagicSheepListener implements Listener{
 					World world = event.getEntity().getWorld();
 					world.playEffect(event.getEntity().getLocation(), Effect.EXTINGUISH, 5); // MUAHHA
 					((Sheep) event.getEntity()).setColor(sco);
-					attacker.sendMessage(event.getEntity().getUniqueId().toString() + " " + plugin.dasheep.toString());
-					// Don't think I need to check for null below? eh, o well
+					//attacker.sendMessage(event.getEntity().getUniqueId().toString() + " " + plugin.dasheep.toString());
+					//^ used for debuggin
 					if (attacker.getInventory().getItemInHand().getType() != null && attacker.getInventory().getItemInHand().getType() == Material.STICK)
 					{
 					((Sheep) event.getEntity()).setPassenger(attacker); // :O RIDE THE SHEEP!
