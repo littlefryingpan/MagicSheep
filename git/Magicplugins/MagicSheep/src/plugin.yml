@@ -1,0 +1,18 @@
+name: MagicSheep
+main: com.magicsheep.Techie.MagicSheep
+version: 1.0.0
+author: Littlefryingpan
+description: >
+             Spawns a MagicSheep.
+commands:
+  magicsheep:
+    description: Spawns a magic sheep!
+
+permissions:
+
+# Admin Permissions
+  magicsheep.*:
+    description: Admin permission for total access
+    default: op
+    children:
+      magicsheep.admin: false
