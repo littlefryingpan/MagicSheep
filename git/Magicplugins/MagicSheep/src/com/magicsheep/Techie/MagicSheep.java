@@ -46,6 +46,11 @@ public class MagicSheep extends JavaPlugin{
         getConfig().set("dasheep", sheepa.getUniqueId().toString());
         //Should set all the blocks in the dablock/daloc list back to there location so after the restart the wool trail is reset/gone. (To prevent illegitness) (Should also make it so players can't break the trail)
         saveConfig();
+        for(int i=0; i==plugin.dablock.size(); i++){
+        	plugin.daloc.get(i).getBlock().setType(plugin.dablock.get(i));
+        	plugin.dablock.remove(i);
+        	plugin.daloc.remove(i); 
+        }
 		}
 	}
 	

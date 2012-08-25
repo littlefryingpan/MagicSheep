@@ -105,17 +105,21 @@ public class MagicSheepListener implements Listener{
 		                int z = player.getLocation().getBlockZ();
 		                World w = player.getWorld();
 		                Location loc = new Location(w, x, y, z);
-		                if (!loc.getBlock().equals(Material.WOOL)) { //An attempt to save the block it was previously and change it back after the sheep moves 5 blocks.
+		                if (!loc.getBlock().getType().equals(Material.WOOL)) { //An attempt to save the block it was previously and change it back after the sheep moves 5 blocks.
 		                plugin.dablock.add(loc.getBlock().getType());
 		                plugin.daloc.add(loc);
+		                player.sendMessage("THIS IS NOT WOOL");
 		                }
 		                if (plugin.dablock.size() > 5) {
 		                	plugin.daloc.get(0).getBlock().setType(plugin.dablock.get(0));
 		                	plugin.dablock.remove(0);
 		                	plugin.daloc.remove(0); 
+		                	player.sendMessage("THIS STRING IS GREATER THEN 5");
+		                	player.sendMessage(plugin.dablock.toString());
 		                } 
+		                if (!loc.getBlock().getType().equals(Material.AIR)) {
 		                loc.getBlock().setTypeIdAndData(35, sco.getData(), true);
-		                
+		                }
 		                
 		        	}
 		        }
