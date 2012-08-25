@@ -10,12 +10,15 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 //import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Sheep;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -46,11 +49,13 @@ public class MagicSheep extends JavaPlugin{
         getConfig().set("dasheep", sheepa.getUniqueId().toString());
         //Should set all the blocks in the dablock/daloc list back to there location so after the restart the wool trail is reset/gone. (To prevent illegitness) (Should also make it so players can't break the trail)
         saveConfig();
-        for(int i=0; i==plugin.dablock.size(); i++){
+        if (plugin.dablock.size() > 0) {
+        for(int i=0; i<plugin.dablock.size(); i++){
         	plugin.daloc.get(i).getBlock().setType(plugin.dablock.get(i));
         	plugin.dablock.remove(i);
         	plugin.daloc.remove(i); 
         }
+		}
 		}
 	}
 	
@@ -60,9 +65,18 @@ public class MagicSheep extends JavaPlugin{
 			 if (commandLabel.equalsIgnoreCase("magicsheep")) {
 				 if (sender instanceof Player) {
 			     Player player = (Player) sender;       
-        		if (sender.hasPermission("magicsheep.admin") || sender.isOp()) {
-        			if (sheepa != null) {
-        			sheepa.remove(); //Kill the old one! (Doens't work after restarts)
+        		if (sender.hasPermission("magicsheep.admin") || sender.isOp()) {	
+        			if ((plugin.dasheep != null)) {
+        			for (World i : getServer().getWorlds()){
+            			List<LivingEntity> e = i.getLivingEntities();
+            			for (Entity ei : e){
+            				if (ei instanceof Sheep) {
+            					if (ei.getUniqueId().toString().equals(dasheep.toString())) {
+            						ei.remove();
+            					}
+            				}
+            			}
+        			}
         			}
         			sheepa = ((Player) sender).getWorld().spawnEntity(((Player) sender).getLocation(), EntityType.SHEEP); 			
         			player.sendMessage(ChatColor.BLUE + "MAGIC SHEEP TIME!");
