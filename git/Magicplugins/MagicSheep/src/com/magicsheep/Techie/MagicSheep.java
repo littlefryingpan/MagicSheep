@@ -27,7 +27,8 @@ public class MagicSheep extends JavaPlugin{
 	static MagicSheep plugin;
     //public List<String> swears;
     public Entity sheepa;
-    public String dasheep;
+    // public String dasheep; OLD
+    public List<String> sheeps; // NEW
     // REMOVED DUE TO BUGS/ISSUES
     /*
     List<Material> dablock = new ArrayList<Material>();
@@ -42,14 +43,15 @@ public class MagicSheep extends JavaPlugin{
         PluginDescriptionFile pdfFile = this.getDescription();
         System.out.println( pdfFile.getName() + " version " + pdfFile.getVersion() + " is now running." );
         //replacements = getConfig().getStringList("replacements");
-        dasheep = getConfig().getString("dasheep");
+        sheeps = getConfig().getStringList("sheeps");
         //sheeps = UUID.fromString(dasheep);
     }
     
 	@Override
 	public void onDisable() {	
-		if (sheepa != null) {
-        getConfig().set("dasheep", sheepa.getUniqueId().toString());
+		if (sheepa != null) { // NO
+        getConfig().set("sheeps", sheeps);
+        // getConfig().set("sheeps", sheepa.getUniqueId().toString());
         //Should set all the blocks in the dablock/daloc list back to there location so after the restart the wool trail is reset/gone. (To prevent illegitness) (Should also make it so players can't break the trail)
         saveConfig();
         // REMOVED DUE TO BUGS/ISSUES
@@ -72,12 +74,13 @@ public class MagicSheep extends JavaPlugin{
 				 if (sender instanceof Player) {
 			     Player player = (Player) sender;       
         		if (sender.hasPermission("magicsheep.admin") || sender.isOp()) {	
-        			if ((plugin.dasheep != null)) {
+        			if ((plugin.sheeps != null)) {
         			for (World i : getServer().getWorlds()){
             			List<LivingEntity> e = i.getLivingEntities();
             			for (Entity ei : e){
             				if (ei instanceof Sheep) {
-            					if (ei.getUniqueId().toString().equals(dasheep.toString())) {
+            					//if (ei.getUniqueId().toString().equals(dasheep.toString())) {
+            					if (sheeps.contains(ei.getUniqueId().toString())) {
             						ei.remove();
             					}
             				}
@@ -86,8 +89,9 @@ public class MagicSheep extends JavaPlugin{
         			}
         			sheepa = ((Player) sender).getWorld().spawnEntity(((Player) sender).getLocation(), EntityType.SHEEP); 			
         			player.sendMessage(ChatColor.BLUE + "MAGIC SHEEP TIME!");
-        			getConfig().set("dasheep", sheepa.getUniqueId().toString());
-        			dasheep = getConfig().getString("dasheep");
+        			sheeps.add(sheepa.getUniqueId().toString());
+        			getConfig().set("sheeps", sheeps);
+        			sheeps = getConfig().getStringList("sheeps");
         		}
         		else {
         			sender.sendMessage(ChatColor.RED + "error, you do not have permission to use this command!");

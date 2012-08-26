@@ -36,8 +36,9 @@ public class MagicSheepListener implements Listener{
 		public void onMobHurt(EntityDamageByEntityEvent event){
 			if (event.getEntity() instanceof Sheep) {	
 				//if (plugin.sheepa != null && event.getEntity() == plugin.sheepa) {
-				if ((plugin.dasheep != null)) {
-				if (event.getEntity().getUniqueId().toString().equals(plugin.dasheep.toString())) {
+				if ((plugin.sheeps != null)) {
+				//if (event.getEntity().getUniqueId().toString().equals(plugin.dasheep.toString())) {
+					if (plugin.sheeps.contains(event.getEntity().getUniqueId().toString())) {
 					Player attacker = (Player) event.getDamager(); //Get the person that attacked?		
 					if(scolor == 0) {
 						sco = DyeColor.WHITE;
@@ -109,7 +110,8 @@ public class MagicSheepListener implements Listener{
 		}
 		@EventHandler(priority = EventPriority.NORMAL)
 		public void onShearSheep(PlayerShearEntityEvent event){	
-				if ((plugin.dasheep != null) && (event.getEntity().getUniqueId().toString() == plugin.dasheep.toString())) {	
+				//if ((plugin.sheeps != null) && (event.getEntity().getUniqueId().toString() == plugin.dasheep.toString())) {	
+			      if ((plugin.sheeps != null) && (plugin.sheeps.contains(event.getEntity().getUniqueId().toString()))) {	
 					event.setCancelled(true);  //You can't shear the magic sheep :,(
 				}
 		}
@@ -118,7 +120,8 @@ public class MagicSheepListener implements Listener{
 		        if (!event.isCancelled()) {
 		        	Player player = event.getPlayer();
 		        	//List nearbyentity = player.getNearbyEntities(5, 5, 5)      	
-		        	if ((plugin.dasheep != null) && player.isInsideVehicle() && player.getVehicle().getUniqueId().toString().equals(plugin.dasheep.toString())) {	
+		        	//if ((plugin.sheeps != null) && player.isInsideVehicle() && player.getVehicle().getUniqueId().toString().equals(plugin.dasheep.toString())) {	
+		        	if ((plugin.sheeps != null) && player.isInsideVehicle() && plugin.sheeps.contains(player.getVehicle().getUniqueId().toString())) {	
 		        		// REMOVED DUE TO BUGS/ISSUES
 		        		/*
 		        		int x = player.getLocation().getBlockX();
