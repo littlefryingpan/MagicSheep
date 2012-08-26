@@ -1,0 +1,1 @@
+This is a bukkit plugin created by Littlefryingpan and Planephanatic. MAGIC SHEEP!
