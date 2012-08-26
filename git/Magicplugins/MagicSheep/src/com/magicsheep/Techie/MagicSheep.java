@@ -74,6 +74,8 @@ public class MagicSheep extends JavaPlugin{
 				 if (sender instanceof Player) {
 			     Player player = (Player) sender;       
         		if (sender.hasPermission("magicsheep.admin") || sender.isOp()) {	
+        			// Going to have to make a seperate remove command		
+        			/*
         			if ((plugin.sheeps != null)) {
         			for (World i : getServer().getWorlds()){
             			List<LivingEntity> e = i.getLivingEntities();
@@ -87,6 +89,7 @@ public class MagicSheep extends JavaPlugin{
             			}
         			}
         			}
+        			*/
         			sheepa = ((Player) sender).getWorld().spawnEntity(((Player) sender).getLocation(), EntityType.SHEEP); 			
         			player.sendMessage(ChatColor.BLUE + "MAGIC SHEEP TIME!");
         			sheeps.add(sheepa.getUniqueId().toString());
