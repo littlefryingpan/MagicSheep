@@ -79,6 +79,8 @@ public class MagicSheepListener implements Listener{
 					//^ used for debuggin
 					if (attacker.getInventory().getItemInHand().getType() != null && attacker.getInventory().getItemInHand().getType() == Material.STICK)
 					{
+						// REMOVED DUE TO BUGS/ISSUES
+						/*
 						int xx = event.getEntity().getLocation().getBlockX();
 		                int yy = event.getEntity().getLocation().getBlockY() +2;
 		                int zz = event.getEntity().getLocation().getBlockZ();
@@ -93,6 +95,7 @@ public class MagicSheepListener implements Listener{
 						        	plugin.daloc.remove(i); 
 						        }
 								}
+								*/
 					((Sheep) event.getEntity()).setPassenger(attacker); // :O RIDE THE SHEEP!
 					}
 					scolor++;
@@ -116,6 +119,8 @@ public class MagicSheepListener implements Listener{
 		        	Player player = event.getPlayer();
 		        	//List nearbyentity = player.getNearbyEntities(5, 5, 5)      	
 		        	if ((plugin.dasheep != null) && player.isInsideVehicle() && player.getVehicle().getUniqueId().toString().equals(plugin.dasheep.toString())) {	
+		        		// REMOVED DUE TO BUGS/ISSUES
+		        		/*
 		        		int x = player.getLocation().getBlockX();
 		                int y = player.getLocation().getBlockY() -1;
 		                int z = player.getLocation().getBlockZ();
@@ -136,6 +141,7 @@ public class MagicSheepListener implements Listener{
 		                if (!loc.getBlock().getType().equals(Material.AIR)) {
 		                loc.getBlock().setTypeIdAndData(35, sco.getData(), true);
 		                }
+		                */
 		                
 		        	}
 		        }
