@@ -4,12 +4,12 @@ package com.magicsheep.Techie;
 //import java.util.Map;
 //import java.util.UUID;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+//import org.bukkit.Location;
+//import org.bukkit.Material;
 import org.bukkit.World;
 //import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -72,8 +72,9 @@ public class MagicSheep extends JavaPlugin{
 		
 			 if (commandLabel.equalsIgnoreCase("magicsheep")) {
 				 if (sender instanceof Player) {
-			     Player player = (Player) sender;       
+			     Player player = (Player) sender;      
         		if (sender.hasPermission("magicsheep.admin") || sender.isOp()) {	
+        			 if (args.length == 0) {
         			// Going to have to make a seperate remove command		
         			/*
         			if ((plugin.sheeps != null)) {
@@ -95,6 +96,28 @@ public class MagicSheep extends JavaPlugin{
         			sheeps.add(sheepa.getUniqueId().toString());
         			getConfig().set("sheeps", sheeps);
         			sheeps = getConfig().getStringList("sheeps");
+        		} else if ((args.length == 1) && (args[0].equalsIgnoreCase("remove"))) {
+    				
+    				if ((plugin.sheeps != null)) {
+            			for (World i : getServer().getWorlds()){
+                			List<LivingEntity> e = i.getLivingEntities();
+                			for (Entity ei : e){
+                				if (ei instanceof Sheep) {
+                					//if (ei.getUniqueId().toString().equals(dasheep.toString())) {
+                					if (sheeps.contains(ei.getUniqueId().toString())) {
+                						ei.remove();
+                						sheeps.remove(ei.getUniqueId().toString());
+                					}
+                				}
+                			}
+            			}
+            			sender.sendMessage(ChatColor.RED + "ALL MAGIC SHEEP HAVE BEEN REMOVED! >:)");
+            			} else {
+            				sender.sendMessage(ChatColor.RED + "ERROR, No magic sheep currently living!");     
+            			}
+    				
+    				
+    			}
         		}
         		else {
         			sender.sendMessage(ChatColor.RED + "error, you do not have permission to use this command!");

@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 
@@ -115,8 +116,17 @@ public class MagicSheepListener implements Listener{
 					event.setCancelled(true);  //You can't shear the magic sheep :,(
 				}
 		}
+		@EventHandler (priority = EventPriority.NORMAL)
+		public void onentitydie(EntityDeathEvent event) {
+			if ((plugin.sheeps != null) && (plugin.sheeps.contains(event.getEntity().getUniqueId().toString()))) {
+				event.getDrops().clear(); // KEEPIN' IT LEGIT!
+				event.setDroppedExp(0);
+				plugin.sheeps.remove(event.getEntity().getUniqueId().toString());
+			}
+		}
+		
 		 @EventHandler (priority = EventPriority.NORMAL)
-		    public void onPlayerMove (PlayerMoveEvent event) {
+		    public void onPlayerMove(PlayerMoveEvent event) {
 		        if (!event.isCancelled()) {
 		        	Player player = event.getPlayer();
 		        	//List nearbyentity = player.getNearbyEntities(5, 5, 5)      	
