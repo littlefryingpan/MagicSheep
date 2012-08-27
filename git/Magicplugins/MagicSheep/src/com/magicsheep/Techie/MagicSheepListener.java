@@ -8,16 +8,20 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+//import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
-
+//import org.bukkit.craftbukkit.entity.CraftCreature;
+//import org.bukkit.craftbukkit.CraftWorld;
 
 import com.magicsheep.Techie.MagicSheep;
 
@@ -41,42 +45,10 @@ public class MagicSheepListener implements Listener{
 				//if (event.getEntity().getUniqueId().toString().equals(plugin.dasheep.toString())) {
 					if (plugin.sheeps.contains(event.getEntity().getUniqueId().toString())) {
 					Player attacker = (Player) event.getDamager(); //Get the person that attacked?		
-					if(scolor == 0) {
-						sco = DyeColor.WHITE;
-					}
-					if(scolor == 1) {
-						sco = DyeColor.GREEN;
-					}
-					if(scolor == 2) {
-						sco = DyeColor.RED;
-					}
-					if(scolor == 3) {
-						sco = DyeColor.BLUE;
-					}
-					if(scolor == 4) {
-						sco = DyeColor.BLACK;
-					}	
-					if(scolor == 5) {
-						sco = DyeColor.CYAN;
-					}	
-					if(scolor == 6) {
-						sco = DyeColor.PINK;
-					}	
-					if(scolor == 7) {
-						sco = DyeColor.GRAY;
-					}
-					if(scolor == 8) {
-						sco = DyeColor.YELLOW;
-					}
-					if(scolor == 9) {
-						sco = DyeColor.BROWN;
-					}
-					if(scolor == 10) {
-						sco = DyeColor.ORANGE;
-					}
+					
 					World world = event.getEntity().getWorld();
 					world.playEffect(event.getEntity().getLocation(), Effect.EXTINGUISH, 5); // MUAHHA
-					((Sheep) event.getEntity()).setColor(sco);
+					((Sheep) event.getEntity()).setColor(Colorchanger((Sheep) event.getEntity()));
 					//attacker.sendMessage(event.getEntity().getUniqueId().toString() + " " + plugin.dasheep.toString());
 					//^ used for debuggin
 					if (attacker.getInventory().getItemInHand().getType() != null && attacker.getInventory().getItemInHand().getType() == Material.STICK)
@@ -99,10 +71,6 @@ public class MagicSheepListener implements Listener{
 								}
 								*/
 					((Sheep) event.getEntity()).setPassenger(attacker); // :O RIDE THE SHEEP!
-					}
-					scolor++;
-					if(scolor > 10) {
-						scolor = 0;
 					}
 					event.setCancelled(true);
 				}
@@ -132,6 +100,18 @@ public class MagicSheepListener implements Listener{
 		        	//List nearbyentity = player.getNearbyEntities(5, 5, 5)      	
 		        	//if ((plugin.sheeps != null) && player.isInsideVehicle() && player.getVehicle().getUniqueId().toString().equals(plugin.dasheep.toString())) {	
 		        	if ((plugin.sheeps != null) && player.isInsideVehicle() && plugin.sheeps.contains(player.getVehicle().getUniqueId().toString())) {	
+
+	                	if (player.isSneaking()) {
+	                		Float dirX = (float) (0 - (Math.sin((player.getEyeLocation().getYaw() / 180) * Math.PI) * 3));
+		                	Float dirZ = (float) (Math.cos((player.getEyeLocation().getYaw() / 180) * Math.PI) * 3);
+		                	//player.getVehicle().setVelocity(player.getEyeLocation().toVector());
+		                	player.getVehicle().setVelocity(player.getVehicle().getVelocity().setZ(dirZ).multiply(0.10000002D));
+		                	player.getVehicle().setVelocity(player.getVehicle().getVelocity().setX(dirX).multiply(0.10000002D));
+		                	((Sheep) player.getVehicle()).setColor(Colorchanger((Sheep) player.getVehicle()));
+		                	
+		                	//Location locy = player.getLocation();
+		                	//((Entity) player.getVehicle()).setLocation(locy.getX(), locy.getY(), locy.getZ(), locy.getYaw(), locy.getPitch());
+	                	}
 		        		// REMOVED DUE TO BUGS/ISSUES
 		        		/*
 		        		int x = player.getLocation().getBlockX();
@@ -155,11 +135,77 @@ public class MagicSheepListener implements Listener{
 		                loc.getBlock().setTypeIdAndData(35, sco.getData(), true);
 		                }
 		                */
+		        		
 		                
 		        	}
 		        }
 		 }
-
-	   
+		 @EventHandler (priority = EventPriority.NORMAL)
+		    public void onPlayerInteract (PlayerInteractEvent event) {
+		        if (!event.isCancelled()) {
+		        	Player player = event.getPlayer();
+		            if (event.getAction().equals(Action.LEFT_CLICK_BLOCK) || event.getAction() == Action.LEFT_CLICK_AIR) {
+		                Block block = event.getClickedBlock();
+		                if ((plugin.sheeps != null) && player.isInsideVehicle() && plugin.sheeps.contains(player.getVehicle().getUniqueId().toString())) {	
+		                	//Sheep mob = (Sheep) player.getVehicle(); //again, "Mob" needs to be a type of creature you wish to control
+							//Block to = block; //block location they need to travel to.
+							//EntityCreature ec = ((CraftCreature)mob).getHandle();
+							//PathEntity pf = ((CraftWorld)to.getWorld()).getHandle().a(ec, to.getX(), to.getY(), to.getZ(), 16.0f, true, false, false, true);
+							//ec.setPathEntity(pf);
+		                	
+		                	//Sheep mob = (Sheep) player.getVehicle(); //"Mob" needs to be the type of creature you wish to control
+		                	//Location location; //set your location
+		                	//EntityCreature ec = ((CraftCreature)mob).getHandle();
+		                	//Navigation nav = ec.al();
+		                	//nav.a(location.getX(),location.getY(),location.getZ(),0.3f);
+		                	//player.getVehicle().setVelocity(player.getEyeLocation().getDirection());
+		                	
+		                	
+		                }
+		                    }
+		                }
+		            } 
+ public static DyeColor Colorchanger(Sheep sheep) 
+ {
+	 if (sheep.getColor().equals(DyeColor.WHITE)) {
+		 return DyeColor.GREEN;
+	 }
+	 if (sheep.getColor().equals(DyeColor.GREEN)) {
+		 return DyeColor.RED;
+	 }
+	 if (sheep.getColor().equals(DyeColor.RED)) {
+		 return DyeColor.BLUE;
+	 }
+	 if (sheep.getColor().equals(DyeColor.BLUE)) {
+		 return DyeColor.BLACK;
+	 }
+	 if (sheep.getColor().equals(DyeColor.BLACK)) {
+		 return DyeColor.CYAN;
+	 }
+	 if (sheep.getColor().equals(DyeColor.CYAN)) {
+		 return DyeColor.PINK;
+	 }
+	 if (sheep.getColor().equals(DyeColor.PINK)) {
+		 return DyeColor.GRAY;
+	 }
+	 if (sheep.getColor().equals(DyeColor.GRAY)) {
+		 return DyeColor.YELLOW;
+	 }
+	 if (sheep.getColor().equals(DyeColor.YELLOW)) {
+		 return DyeColor.BROWN;
+	 }
+	 if (sheep.getColor().equals(DyeColor.ORANGE)) {
+		 return DyeColor.LIME;
+	 }
+	 if (sheep.getColor().equals(DyeColor.LIME)) {
+		 return DyeColor.SILVER;
+	 }
+	 if (sheep.getColor().equals(DyeColor.SILVER)) {
+		 return DyeColor.WHITE;
+	 }
+	return DyeColor.WHITE;
+	
+	 
+ }
 				
 }
