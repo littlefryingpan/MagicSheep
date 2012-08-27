@@ -71,19 +71,15 @@ public class MagicSheep extends JavaPlugin{
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		
 			 if (commandLabel.equalsIgnoreCase("magicsheep")) {
-				
+				 if (sender instanceof Player) {
 			     Player player = (Player) sender;      
         		if (sender.hasPermission("magicsheep.admin") || sender.isOp()) {	
         			 if (args.length == 0) {
-        				 if (sender instanceof Player) {
         			sheepa = ((Player) sender).getWorld().spawnEntity(((Player) sender).getLocation(), EntityType.SHEEP); 			
         			player.sendMessage(ChatColor.BLUE + "MAGIC SHEEP TIME!");
         			sheeps.add(sheepa.getUniqueId().toString());
         			getConfig().set("sheeps", sheeps);
         			sheeps = getConfig().getStringList("sheeps");
-        			 } else {
- 						sender.sendMessage("You can't run this command from console!");
- 					}
         		} else if ((args.length == 1) && (args[0].equalsIgnoreCase("remove"))) {
     				
     				if ((plugin.sheeps != null)) {
@@ -103,12 +99,16 @@ public class MagicSheep extends JavaPlugin{
             			} else {
             				sender.sendMessage(ChatColor.RED + "ERROR, No magic sheep currently living!");     
             			}
+    				
+    				
     			}
         		}
         		else {
         			sender.sendMessage(ChatColor.RED + "error, you do not have permission to use this command!");
         		}
-				 
+				 } else {
+						sender.sendMessage("You can't run this command from console!");
+					}
         	}
 		return false;
 	}
