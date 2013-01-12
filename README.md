@@ -1,1 +1,1 @@
-This is a bukkit plugin created by Littlefryingpan and Planephanatic. MAGIC SHEEP!
+This is a Bukkit plugin created by littlefryingpan. This is an experemental project created out of boredom.
