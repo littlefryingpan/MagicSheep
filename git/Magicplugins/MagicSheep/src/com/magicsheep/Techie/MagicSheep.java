@@ -1,17 +1,9 @@
 package com.magicsheep.Techie;
 
-//import java.util.HashMap;
-//import java.util.Map;
-//import java.util.UUID;
-
-//import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
-//import org.bukkit.Location;
-//import org.bukkit.Material;
 import org.bukkit.World;
-//import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
@@ -25,10 +17,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class MagicSheep extends JavaPlugin{
 	
 	static MagicSheep plugin;
-    //public List<String> swears;
     public Entity sheepa;
-    // public String dasheep; OLD
-    public List<String> sheeps; // NEW
+    public List<String> sheeps; 
     // REMOVED DUE TO BUGS/ISSUES
     /*
     List<Material> dablock = new ArrayList<Material>();
@@ -76,7 +66,7 @@ public class MagicSheep extends JavaPlugin{
         		if (sender.hasPermission("magicsheep.admin") || sender.isOp()) {	
         			 if (args.length == 0) {
         			sheepa = ((Player) sender).getWorld().spawnEntity(((Player) sender).getLocation(), EntityType.SHEEP); 			
-        			player.sendMessage(ChatColor.BLUE + "MAGIC SHEEP TIME!");
+        			player.sendMessage(ChatColor.GOLD + "[Magic Sheep]" + ChatColor.BLUE + " A Magic Sheep has been spawned!!");
         			sheeps.add(sheepa.getUniqueId().toString());
         			getConfig().set("sheeps", sheeps);
         			sheeps = getConfig().getStringList("sheeps");
@@ -86,8 +76,7 @@ public class MagicSheep extends JavaPlugin{
             			for (World i : getServer().getWorlds()){
                 			List<LivingEntity> e = i.getLivingEntities();
                 			for (Entity ei : e){
-                				if (ei instanceof Sheep) {
-                					//if (ei.getUniqueId().toString().equals(dasheep.toString())) {
+                				if (ei instanceof Sheep) {              					
                 					if (sheeps.contains(ei.getUniqueId().toString())) {
                 						ei.remove();
                 						sheeps.remove(ei.getUniqueId().toString());
@@ -95,19 +84,26 @@ public class MagicSheep extends JavaPlugin{
                 				}
                 			}
             			}
-            			sender.sendMessage(ChatColor.RED + "ALL MAGIC SHEEP HAVE BEEN REMOVED! >:)");
+            			sender.sendMessage(ChatColor.GOLD + "[Magic Sheep]" + ChatColor.RED + " ALL MAGIC SHEEP HAVE BEEN REMOVED! >:)");
             			} else {
-            				sender.sendMessage(ChatColor.RED + "ERROR, No magic sheep currently living!");     
+            				sender.sendMessage(ChatColor.GOLD + "[Magic Sheep]" + ChatColor.RED + " ERROR, No magic sheep currently living!");     
             			}
     				
+    				
+    			} else if (args.length == 1) {
     				
     			}
         		}
         		else {
-        			sender.sendMessage(ChatColor.RED + "error, you do not have permission to use this command!");
+        			sender.sendMessage(ChatColor.GOLD + "[Magic Sheep]" + ChatColor.RED + "error, you do not have permission to use this command!");
         		}
 				 } else {
-						sender.sendMessage("You can't run this command from console!");
+						sender.sendMessage(ChatColor.GOLD + "[Magic Sheep]" + " Console command ussage:");
+						sender.sendMessage(ChatColor.WHITE + "/magicsheep <PlayerName>");
+						sender.sendMessage(ChatColor.GRAY + "Description: spawns a magic sheep at the specified players location");
+						sender.sendMessage(ChatColor.WHITE + "/magicsheep Remove");
+						sender.sendMessage(ChatColor.GRAY + "Description: Removes all MagicSheep");
+						
 					}
         	}
 		return false;

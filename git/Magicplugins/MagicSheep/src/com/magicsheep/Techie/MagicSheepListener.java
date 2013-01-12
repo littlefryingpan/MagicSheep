@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Effect;
+import org.bukkit.EntityEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -89,7 +90,9 @@ public class MagicSheepListener implements Listener{
 			if ((plugin.sheeps != null) && (plugin.sheeps.contains(event.getEntity().getUniqueId().toString()))) {
 				event.getDrops().clear(); // KEEPIN' IT LEGIT!
 				event.setDroppedExp(0);
+				event.getEntity().playEffect(EntityEffect.WOLF_SMOKE);
 				plugin.sheeps.remove(event.getEntity().getUniqueId().toString());
+				
 			}
 		}
 		
@@ -102,7 +105,7 @@ public class MagicSheepListener implements Listener{
 		        	if ((plugin.sheeps != null) && player.isInsideVehicle() && plugin.sheeps.contains(player.getVehicle().getUniqueId().toString())) {	
 
 	                	if (player.isSneaking()) {
-	                		Float dirX = (float) (0 - (Math.sin((player.getEyeLocation().getYaw() / 180) * Math.PI) * 3));
+	                		Float dirX = (float) (0 - (Math.sin((player.getEyeLocation().getYaw() / 180) * Math.PI) * 3)); //3 for speed
 		                	Float dirZ = (float) (Math.cos((player.getEyeLocation().getYaw() / 180) * Math.PI) * 3);
 		                	//player.getVehicle().setVelocity(player.getEyeLocation().toVector());
 		                	player.getVehicle().setVelocity(player.getVehicle().getVelocity().setZ(dirZ).multiply(0.10000002D));
@@ -134,9 +137,7 @@ public class MagicSheepListener implements Listener{
 		                if (!loc.getBlock().getType().equals(Material.AIR)) {
 		                loc.getBlock().setTypeIdAndData(35, sco.getData(), true);
 		                }
-		                */
-		        		
-		                
+		                */	                
 		        	}
 		        }
 		 }
@@ -145,7 +146,7 @@ public class MagicSheepListener implements Listener{
 		        if (!event.isCancelled()) {
 		        	Player player = event.getPlayer();
 		            if (event.getAction().equals(Action.LEFT_CLICK_BLOCK) || event.getAction() == Action.LEFT_CLICK_AIR) {
-		                Block block = event.getClickedBlock();
+		                //Block block = event.getClickedBlock();
 		                if ((plugin.sheeps != null) && player.isInsideVehicle() && plugin.sheeps.contains(player.getVehicle().getUniqueId().toString())) {	
 		                	//Sheep mob = (Sheep) player.getVehicle(); //again, "Mob" needs to be a type of creature you wish to control
 							//Block to = block; //block location they need to travel to.
